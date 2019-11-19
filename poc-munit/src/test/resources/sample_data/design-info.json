@@ -1,0 +1,8 @@
+{
+  "sampleData": {
+    "7c5ee3f5-b493-4a8a-892e-d021ddf8373e": {
+      "vars-company": "sample_data/defaultstringtype.dwl",
+      "vars-serviceLine": "sample_data/defaultstringtype_1.dwl"
+    }
+  }
+}

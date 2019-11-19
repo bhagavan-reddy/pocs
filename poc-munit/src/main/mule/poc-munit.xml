@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="11de38db-ad0d-4b00-b314-6252efc79a94" >
+		<http:listener-connection host="localhost" port="8081" />
+	</http:listener-config>
+	<sub-flow name="companyCode-generation-common-subflow" doc:id="9cb5ce4c-930b-4176-89de-7902f5fe66d8" >
+		<logger level="INFO" doc:name="Log company and service line" doc:id="86000259-fcbd-47ac-a4ef-d0823cb3485e" message='#[vars.company as String ++ " and " ++ vars.serviceLine as String]'/>
+		<ee:transform doc:name="companyCode var" doc:id="7c5ee3f5-b493-4a8a-892e-d021ddf8373e" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="companyCode" ><![CDATA[%dw 2.0
+output application/json
+---
+vars.company ++ "-" ++ vars.serviceLine 
+]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+	</sub-flow>
+	<flow name="choiceflow" doc:id="7da3c273-d7d2-44cf-a10a-134e5aed0b4e" >
+		<choice doc:name="Choice" doc:id="d0ba0e84-3bfc-416c-b983-e6025f10b0ac" >
+			<when expression="#[vars.company=='EY' and vars.serviceLine=='ASSURANCE']">
+				<flow-ref doc:name="companyCode-generation-common-subflow" doc:id="6e38fc17-44e9-4d30-af79-1b6e046d7ff3" name="companyCode-generation-common-subflow"/>
+			</when>
+			<when expression="#[vars.company=='EY' and vars.serviceLine=='ADVISORY']">
+				<flow-ref doc:name="companyCode-generation-common-subflow" doc:id="f2ce94e8-d056-4d4d-bb35-68563720252f" name="companyCode-generation-common-subflow"/>
+			</when>
+			<when expression="#[vars.company=='EY' and vars.serviceLine=='TRANSACTION ADVISORY']">
+				<flow-ref doc:name="companyCode-generation-common-subflow" doc:id="c9fb14bd-1cdf-4059-95d2-35eff26a9d68" name="companyCode-generation-common-subflow"/>
+			</when>
+			<when expression="#[vars.company=='EY' and vars.serviceLine=='TAX']">
+				<flow-ref doc:name="companyCode-generation-common-subflow" doc:id="27c59b9d-f49d-46aa-91c2-15167f08df8a" name="companyCode-generation-common-subflow"/>
+			</when>
+			<otherwise>
+				<logger level="INFO" doc:name="Logger" doc:id="2d9ecaed-673e-475c-9620-737ece04c4e5" message='#["Company should be EY and serviceLine may be {Advisory, Assurance, Tax, Transaction Advisory}"]'/>
+			</otherwise>
+		</choice>
+	</flow>
+	<flow name="poc-munitFlow" doc:id="e1847747-27fd-4b3f-8bb3-f3d038ca4645">
+		<http:listener doc:name="Listener" doc:id="e5fb13f7-6fee-4b33-82e9-62c139593fe0" config-ref="HTTP_Listener_config" path="/test-Munit" />
+		<set-variable value="#[upper(attributes.queryParams.company)]" doc:name="company" doc:id="79941101-1383-42d4-8b4a-6a0781b603ab" variableName="company" />
+		<set-variable value="#[upper(attributes.queryParams.serviceLine)]" doc:name="serviceLine" doc:id="4ced9cc4-6f91-4b0c-953e-91e88e772852" variableName="serviceLine" />
+		<flow-ref doc:name="choiceflow" doc:id="c3466648-60b9-40be-ae3b-b82f44a90328" name="choiceflow" />
+		<set-payload value="#[vars.companyCode]" doc:name="companyCode" doc:id="a78d5d56-d90e-4bb0-b177-d50aa9e918a8" />
+	</flow>
+</mule>

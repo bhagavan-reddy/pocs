@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="11de38db-ad0d-4b00-b314-6252efc79a94" >
+		<http:listener-connection host="localhost" port="8081" />
+	</http:listener-config>
+	<flow name="choiceflow" doc:id="7da3c273-d7d2-44cf-a10a-134e5aed0b4e" >
+		<choice doc:name="Choice" doc:id="d0ba0e84-3bfc-416c-b983-e6025f10b0ac" >
+			<when />
+		</choice>
+	</flow>
+	<flow name="poc-munitFlow" doc:id="e1847747-27fd-4b3f-8bb3-f3d038ca4645" >
+		<http:listener doc:name="Listener" doc:id="e5fb13f7-6fee-4b33-82e9-62c139593fe0" config-ref="HTTP_Listener_config" path="/test-Munit"/>
+		<set-payload doc:name="Set Payload" doc:id="6599d053-dc77-400c-81f5-d946c23bfc55" value="#[attributes.queryParams.serviceLine]"/>
+		<flow-ref doc:name="Flow Reference" doc:id="c3466648-60b9-40be-ae3b-b82f44a90328" name="choiceflow"/>
+	</flow>
+</mule>
