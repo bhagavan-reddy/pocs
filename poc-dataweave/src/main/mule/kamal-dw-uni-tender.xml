@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="kamal-dw-uni-tenderFlow" doc:id="2460ca7f-053c-41ef-9f9d-cd4f44c350bb" >
+		<ee:transform doc:name="tender" doc:id="fe59ea8f-f085-409d-ae05-9513e483200e" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+using (shipmentHeader=payload.Transmission.TransmissionBody.GLogXMLElement.PlannedShipment.Shipment.ShipmentHeader,
+shipment=payload.Transmission.TransmissionBody.GLogXMLElement.PlannedShipment.Shipment,
+servicePoviderID= if(((payload.Transmission.TransmissionBody.GLogXMLElement.PlannedShipment.Shipment.ShipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == 'SH_CARRIER' reduce $).ShipmentRefnumQualifierGid.Gid.Xid) == "SH_CARRIER")	
+((shipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == 'SH_CARRIER').ShipmentRefnumValue reduce $)
+else (payload.Transmission.TransmissionBody.GLogXMLElement.PlannedShipment.Shipment.ShipmentHeader.ServiceProviderGid.Gid.Xid),
+
+dn=payload.Transmission.TransmissionBody.GLogXMLElement.PlannedShipment.Shipment.ShipmentHeader.ShipmentGid.Gid.DomainName,
+funOrg= if ((payload.Transmission.TransmissionBody.GLogXMLElement.PlannedShipment.Shipment.ShipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == ('UL_FUNCTIONAL_REGION')).ShipmentRefnumValue != null )
+((payload.Transmission.TransmissionBody.GLogXMLElement.PlannedShipment.Shipment.ShipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == ('UL_FUNCTIONAL_REGION')).ShipmentRefnumValue reduce $ )
+else(""),
+rs=if((payload.Transmission.TransmissionBody.GLogXMLElement.PlannedShipment.Shipment.ShipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == 'TARGET_NAME').ShipmentRefnumValue != null )
+((payload.Transmission.TransmissionBody.GLogXMLElement.PlannedShipment.Shipment.ShipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == 'TARGET_NAME').ShipmentRefnumValue reduce $)
+else("")
+)
+
+{
+	
+  Shipment:
+  {
+  	ShipmentID:shipmentHeader.ShipmentGid.Gid.Xid,
+  	
+  	ParentShipmentID:if((shipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == 'PARENT_SHIPMENT').ShipmentRefnumValue != null )
+
+((shipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == 'PARENT_SHIPMENT').ShipmentRefnumValue reduce $ )
+
+
+else
+
+(
+    if((shipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == 'SHIPMENT_ID').ShipmentRefnumValue != null)
+	(
+	     (shipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == 'SHIPMENT_ID').ShipmentRefnumValue reduce $
+	)
+    
+	
+	else ""
+
+
+
+),
+  	
+  	SenderTransmissionNo: payload.Transmission.TransmissionHeader.SenderTransmissionNo,
+	"DomainName": dn,
+	"ReceiverSystem": rs,
+    "CUST_TYPE":if(((shipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == 'CUST_TYPE').ShipmentRefnumValue) != null) 
+	((shipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == 'CUST_TYPE').ShipmentRefnumValue reduce $ )
+	else '',
+	"SHIPMENT_PRIORITY": 
+	if(((shipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == 'SHIPMENT_PRIORITY').ShipmentRefnumValue) != null)
+((shipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == 'SHIPMENT_PRIORITY').ShipmentRefnumValue reduce $ )
+else '',
+"SHIPMENT_PRIORITY_QTY":if(((shipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == 'SHIPMENT_PRIORITY_QTY').ShipmentRefnumValue) != null)
+	((shipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == 'SHIPMENT_PRIORITY_QTY').ShipmentRefnumValue reduce $ )
+	else '',
+	
+	
+"SHIPMENT_PRIORITY_PER":if (((shipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == 'SHIPMENT_PRIORITY_PER').ShipmentRefnumValue) != null)
+		 ((shipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == 'SHIPMENT_PRIORITY_PER').ShipmentRefnumValue reduce $)
+		 else '',
+	
+	"StartTime": shipmentHeader.StartDt.GLogDate,
+	"StartTimeOffset":shipmentHeader.StartDt.TZOffset ,
+	
+	"EndTime": shipmentHeader.EndDt.GLogDate,
+	"EndTimeOffset":shipmentHeader.EndDt.TZOffset,
+	"SourceID": shipmentHeader.SourceLocationRef.LocationRef.LocationGid.Gid.Xid,
+	
+	"DestinationID": shipmentHeader.DestinationLocationRef.LocationRef.LocationGid.Gid.Xid,
+
+
+EquipmentID:if(((shipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == 'SH_EQUIP' reduce $).ShipmentRefnumQualifierGid.Gid.Xid) == "SH_EQUIP")
+	
+	((shipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == 'SH_EQUIP').ShipmentRefnumValue reduce $)
+	 else((shipment.SEquipment.EquipmentGroupGid.Gid.Xid)),
+	 
+	 
+	 
+	 	"EquipmentName":if(((shipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == 'SH_EQUIP_NAME' reduce $).ShipmentRefnumQualifierGid.Gid.Xid) == "SH_EQUIP_NAME")
+	 	((shipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == 'SH_EQUIP_NAME').ShipmentRefnumValue reduce $ )
+	 	 else '',
+	 	 
+	 	 
+	 	 	"ShipmentType": 
+	 	 	
+	 	 	if((shipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == (dn ++ '_SHIPMENT_TYPE1')).ShipmentRefnumValue != null )
+	 	 	((shipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == (dn ++ '_SHIPMENT_TYPE1')).ShipmentRefnumValue reduce $ )
+	 	 	
+	 	 	else'',
+	 	 	
+	 "NoOfStops": shipmentHeader.StopCount,
+	   "TotalShipmentUnit":shipmentHeader.TotalPackagedItemCount,
+	   "PalletCount":  if( (shipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == (dn ++ '_TOTAL_PALLET')).ShipmentRefnumValue != null)
+		   ((shipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == (dn ++ '_TOTAL_PALLET')).ShipmentRefnumValue reduce $)
+		   else '',
+	   "LoadedDistance":shipmentHeader.LoadedDistance.Distance.DistanceValue,
+	"LoadedDistanceUOM":shipmentHeader.LoadedDistance.Distance.DistanceUOMGid.Gid.Xid,
+	"WeightUtilization":payload.Transmission.TransmissionBody.GLogXMLElement.PlannedShipment.Shipment.ShipmentHeader2.WeightUtil,
+	"VolumeUtilzation":payload.Transmission.TransmissionBody.GLogXMLElement.PlannedShipment.Shipment.ShipmentHeader2.VolumeUtil,
+	
+	"Hazardous": if((shipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == ('(UL_HAZMAT')).ShipmentRefnumValue != null)
+	
+	
+	((shipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == ('(UL_HAZMAT')).ShipmentRefnumValue reduce $ )
+	
+	else 
+	
+	(   if(shipmentHeader.IsHazardous != null)
+		
+		(shipmentHeader.IsHazardous)
+		
+		else ''
+	),
+	
+	
+	
+	
+	
+	
+IsTempControl:shipmentHeader.IsTemperatureControl,
+
+	PONumber: if((shipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == ('PO_NUMBER')).ShipmentRefnumValue != null)
+	((shipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == ('PO_NUMBER')).ShipmentRefnumValue reduce $) 
+	else'',
+
+	DNNumber:if((shipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == ('DN_NUMBER')).ShipmentRefnumValue != null)
+	((shipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == ('DN_NUMBER')).ShipmentRefnumValue reduce $ )
+	else'',
+	
+"TenderReq":if((shipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == ('TENDER_REQ')).ShipmentRefnumValue != null)
+ 
+ ((shipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == ('TENDER_REQ')).ShipmentRefnumValue reduce $) 
+
+else '',
+"TransitTime":"",
+
+
+	"FunctionalOrg": if ((shipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == ('UL_FUNCTIONAL_REGION')).ShipmentRefnumValue != null)
+	 ((shipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == ('UL_FUNCTIONAL_REGION')).ShipmentRefnumValue reduce $)
+	 else '',
+	 
+    "TempCondition": if((shipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == ('UL_TEMPERATURE_CONDITION')).ShipmentRefnumValue != null )
+    ((shipmentHeader.*ShipmentRefnum filter $.ShipmentRefnumQualifierGid.Gid.Xid == ('UL_TEMPERATURE_CONDITION')).ShipmentRefnumValue reduce $)
+     else '',
+  "TransportMode": shipmentHeader.TransportModeGid.Gid.Xid,
+ 
+ 
+ "detail": shipment.*ShipmentStop map using(locationId=$.LocationRef.LocationGid.Gid.Xid)
+	{
+  
+  
+       StopSequence: $.StopSequence,
+	 	"StopType": $.StopType,
+	 	"StopLocationName":  if((shipment.*Location filter $.LocationGid.Gid.Xid == locationId).LocationName != null)
+			 ((shipment.*Location filter $.LocationGid.Gid.Xid == locationId).LocationName reduce $)
+			 else '',
+			 
+			 
+			 "StopLocationID":locationId,
+	  "AddressLine":if ((shipment.*Location filter $.LocationGid.Gid.Xid == locationId).Address.AddressLines.AddressLine != null)
+        
+        ((shipment.*Location filter $.LocationGid.Gid.Xid == locationId).Address.AddressLines.AddressLine reduce $)
+        
+         else '',
+	 	
+	 	
+	 	 "City": if((shipment.*Location filter $.LocationGid.Gid.Xid == locationId).Address.City != null)
+  ((shipment.*Location filter $.LocationGid.Gid.Xid == locationId).Address.City reduce $)
+ else '',
+ 
+ "ProvinceCode":if( (shipment.*Location filter $.LocationGid.Gid.Xid == locationId).Address.ProvinceCode != null )
+ ((shipment.*Location filter $.LocationGid.Gid.Xid == locationId).Address.ProvinceCode reduce $) 
+ else'',
+ 
+
+ "PostalCode": if ((shipment.*Location filter $.LocationGid.Gid.Xid == locationId).Address.PostalCode != null) 
+       ((shipment.*Location filter $.LocationGid.Gid.Xid == locationId).Address.PostalCode reduce $)
+      else'',
+      
+     "Country":if((shipment.*Location filter $.LocationGid.Gid.Xid == locationId).Address.CountryCode3Gid.Gid.Xid != null)
+((shipment.*Location filter $.LocationGid.Gid.Xid == locationId).Address.CountryCode3Gid.Gid.Xid reduce $)
+	   else '',
+	
+	     "StopDepartureDate":($.DepartureTime.EventTime.EstimatedTime.GLogDate) [0 to 7],
+	
+	     "StopArrivalDate":($.ArrivalTime.EventTime.PlannedTime.GLogDate) [0 to 7] ,
+	     
+	     "StopDepartureTime":($.DepartureTime.EventTime.EstimatedTime.GLogDate) [8 to 13],
+	     
+	     
+	     
+	 "StopDepartureTimeOffset":if( $.DepartureTime.EventTime.EstimatedTime.TZOffset != null) 
+	
+	($.DepartureTime.EventTime.EstimatedTime.TZOffset)
+	else '',
+	 
+	 
+	 
+	 "StopArrivalTime":($.ArrivalTime.EventTime.PlannedTime.GLogDate) [8 to 13],
+	 
+	  "StopArrivalTimeOffset":if($.ArrivalTime.EventTime.PlannedTime.TZOffset != null) ($.ArrivalTime.EventTime.PlannedTime.TZOffset) else '',
+
+
+ "StopQuantityCount":if((shipment.*Release filter $.ShipFromLocationRef.LocationRef.LocationGid.Gid.Xid == locationId) != [])
+		 ( (shipment.*Release filter $.ShipFromLocationRef.LocationRef.LocationGid.Gid.Xid == locationId).TotalPackagedItemCount reduce $+$$)
+	 else
+	 (  
+	 	
+	 	
+	 	if($.StopType contains "P")
+	     (shipment.*Release.TotalPackagedItemCount reduce ($+$$))
+		 
+		 else(if((shipment.*Release filter $.ShipToLocationRef.LocationRef.LocationGid.Gid.Xid == locationId) != [])
+		 ((shipment.*Release filter $.ShipToLocationRef.LocationRef.LocationGid.Gid.Xid == locationId).TotalPackagedItemCount reduce ($+$$))
+		 
+		 else (shipment.*Release.TotalPackagedItemCount reduce ($+$$))
+		 ) 
+	 ),
+	 
+	//"test":shipment.*Release.TotalPackagedItemCount reduce $+$$, //brackets are not used wrong syntax
+	
+	//"test-correct":shipment.*Release.TotalPackagedItemCount reduce ($+$$),//brackets are used correct syntax
+	// "test2":shipment.*Release filter $.ShipToLocationRef.LocationRef.LocationGid.Gid.Xid == locationId,
+	// "test1":shipment.*Release filter $.ShipToLocationRef.LocationRef.LocationGid.Gid.Xid == locationId).TotalPackagedItemCount reduce $,
+ 
+
+"WeightUOM": shipment.Release.TotalWeightVolume.WeightVolume.Weight.WeightUOMGid.Gid.Xid ,
+	 	
+	 	
+"WeightValue":  if((shipment.*Release filter $.ShipFromLocationRef.LocationRef.LocationGid.Gid.Xid == locationId) != [])
+((shipment.*Release filter $.ShipFromLocationRef.LocationRef.LocationGid.Gid.Xid == locationId).TotalWeightVolume.WeightVolume.Weight.WeightValue reduce $+$$ )
+
+else
+(
+ if($.StopType  contains "P")
+
+(shipment.*Release.TotalWeightVolume.WeightVolume.Weight.WeightValue reduce $+$$ )
+
+
+else
+
+if((shipment.*Release filter $.ShipToLocationRef.LocationRef.LocationGid.Gid.Xid == locationId) != [] )
+
+((shipment.*Release filter $.ShipToLocationRef.LocationRef.LocationGid.Gid.Xid == locationId).TotalWeightVolume.WeightVolume.Weight.WeightValue reduce $+$$)
+
+
+else (shipment.*Release.TotalWeightVolume.WeightVolume.Weight.WeightValue reduce $+$$)
+
+),
+	 	
+	 	
+	 	
+"VolumeUOM": shipment.Release.TotalWeightVolume.WeightVolume.Volume.VolumeUOMGid.Gid.Xid,
+	 	
+	 	
+"VolumeValue": if((shipment.*Release filter $.ShipFromLocationRef.LocationRef.LocationGid.Gid.Xid == locationId) != [] )	
+
+( (shipment.*Release filter $.ShipFromLocationRef.LocationRef.LocationGid.Gid.Xid == locationId).TotalWeightVolume.WeightVolume.Volume.VolumeValue reduce $+$$ )
+
+else(
+
+if ($.StopType contains "P")
+
+(shipment.*Release.TotalWeightVolume.WeightVolume.Volume.VolumeValue reduce $+$$)
+
+else(
+ 
+ if((shipment.*Release filter $.ShipToLocationRef.LocationRef.LocationGid.Gid.Xid == locationId) != [])
+ 
+ ((shipment.*Release filter $.ShipToLocationRef.LocationRef.LocationGid.Gid.Xid == locationId).TotalWeightVolume.WeightVolume.Volume.VolumeValue reduce $+$$)
+ 
+ else
+ 
+ (shipment.*Release.TotalWeightVolume.WeightVolume.Volume.VolumeValue reduce $+$$)
+
+)
+),
+	
+	 	
+	 
+	 	
+	 	"StopLatitude":(shipment.*Location filter $.LocationGid.Gid.Xid == locationId).Address.Latitude reduce $,
+		"StopLangitude":(shipment.*Location filter $.LocationGid.Gid.Xid == locationId).Address.Longitude reduce $,
+	 
+ //tested
+	      
+	      
+	      
+	      
+	      
+	      
+	      
+	  "AppointmentStartTime":
+	     if($.StopType=='P')
+	     ($.AppointmentPickup.GLogDate[0] default '')
+	     else (
+	     	if($.StopType=='D')
+	     ($.AppointmentPickup.GLogDate[0] default '') else ''
+	     ),   
+	     						
+	"AppointmnetStartTimeOffset":
+   		if($.StopType=='P')
+	     ($.AppointmentPickup.TZOffset[0] default '')
+	     else (
+	     	if($.StopType=='D')
+	     ($.AppointmentPickup.TZOffset[0] default '') else ''
+	     ),	
+	      
+ //tested
+	     
+	 
+	 
+	 "StopDockName":($.*Refnum filter $.RefnumQualifierGid.Gid.Xid == 'DOCK_No').RefnumValue,
+	 
+	 
+	 "StopSafetyRemarks":(shipment.*Location filter $.LocationGid.Gid.Xid == 'LOCATION_SAFETY_REMARKS').Remark.RemarkQualifierGid.Gid.Xid,
+	"StopContactName":($.*Refnum filter $.RefnumQualifierGid.Gid.Xid == 'LOCATION_CONTACT_NAME').RefnumValue,
+	"StopContactPhone":($.*Refnum filter $.RefnumQualifierGid.Gid.Xid == 'LOCATION_CONTACT_PHONE').RefnumValue,
+	"StopField1":($.*Refnum filter $.RefnumQualifierGid.Gid.Xid == 'FIELD1').RefnumValue,
+	"StopField2":($.*Refnum filter $.RefnumQualifierGid.Gid.Xid == 'FIELD2').RefnumValue,
+	"LocationType": if(((shipment.*Location filter $.LocationGid.Gid.Xid == locationId).LocationRefnum filter $.LocationRefnumQualifierGid.Gid.Xid == 'LOCATION_TYPE').LocationRefnumValue != null)
+
+                   (((shipment.*Location filter $.LocationGid.Gid.Xid == locationId).LocationRefnum filter $.LocationRefnumQualifierGid.Gid.Xid == 'LOCATION_TYPE').LocationRefnumValue reduce $)
+
+
+                      else '',
+                      
+                      
+                      
+  "CustomerType": if ((shipment.*Location filter $.LocationGid.Gid.Xid == locationId).FlexFieldStrings.Attribute1 != null)
+
+((shipment.*Location filter $.LocationGid.Gid.Xid == locationId).FlexFieldStrings.Attribute1 reduce $)
+
+else '' 
+
+},
+                  
+
+	
+"ServiceProviderName":(shipment.*Location filter $.LocationGid.Gid.Xid == servicePoviderID).LocationName reduce $ default "",
+	
+	"ServiceProviderID": servicePoviderID,
+	"ServiceProviderSCACID": shipmentHeader.ServiceProviderAlias.ServiceProviderAliasValue,
+	
+	
+		"ServiceProviderPhone":if((shipment.*Location filter $.LocationGid.Gid.Xid == servicePoviderID).Contact.Phone1  != null ) ((shipment.*Location filter $.LocationGid.Gid.Xid == servicePoviderID).Contact.Phone1 reduce $ ) else '',
+	
+	"ServiceProviderEmail":if((shipment.*Location filter $.LocationGid.Gid.Xid == servicePoviderID).Contact.EmailAddress  != null)
+	    ((shipment.*Location filter $.LocationGid.Gid.Xid == servicePoviderID).Contact.EmailAddress reduce $)
+	    else '',
+	    
+	    
+	    
+	  "GrossWeight":{
+	  	
+	  	"WeightUOM": shipmentHeader.TotalWeightVolume.WeightVolume.Weight.WeightUOMGid.Gid.Xid,
+	  	"WeightValue": shipmentHeader.TotalWeightVolume.WeightVolume.Weight.WeightValue
+	  	
+	  },
+	  
+	  
+	"GrossVolume": {
+		"VolumeUOM": shipmentHeader.TotalWeightVolume.WeightVolume.Volume.VolumeUOMGid.Gid.Xid,
+		"VolumeValue": shipmentHeader.TotalWeightVolume.WeightVolume.Volume.VolumeValue
+	},
+ 
+
+	   
+	 		"RemarkField": payload.Transmission.TransmissionBody.GLogXMLElement.TransactionHeader.SendReason.Remark.RemarkText,
+	 		
+	 		
+	"Field1": "",
+    "Field2": "",
+    "RateOffering": shipmentHeader.RateOfferingGid.Gid.Xid,
+    "RateGeo": shipmentHeader.RateGeoGid.Gid.Xid,
+    "Field5": "",
+	"Field6":"",
+	"Field7":"",
+	"Field8":"",
+	
+	
+	
+	//testing
+	//"ssss":shipment.*Release 
+	//pluck{},
+	
+	
+
+"DeliveyDetail": shipment.*Release map using(shipToLocId=$.ShipToLocationRef.LocationRef.LocationGid.Gid.Xid ,shipFromLocId=$.ShipFromLocationRef.LocationRef.LocationGid.Gid.Xid)
+
+  {
+ "DeliveryID": $.ReleaseGid.Gid.Xid,
+  "SalesOrderId":if(rs == 'EWC')
+		(
+			if (($.*ReleaseRefnum filter $.ReleaseRefnumQualifierGid.Gid.Xid == 'SO').ReleaseRefnumValue != null)
+				(($.*ReleaseRefnum filter $.ReleaseRefnumQualifierGid.Gid.Xid == 'SO').ReleaseRefnumValue reduce $) 
+			else ''
+		)
+		else '',
+ "STOId":if(funOrg=='OUTBOUND' or funOrg=='PRIMARY')
+ 		(
+			if(($.*ReleaseRefnum filter $.ReleaseRefnumQualifierGid.Gid.Xid == 'PO').ReleaseRefnumValue != null)
+	
+			(($.*ReleaseRefnum filter $.ReleaseRefnumQualifierGid.Gid.Xid == 'PO').ReleaseRefnumValue reduce $)
+			else ''
+	
+ 		)
+ 		else '',	
+ 		
+ 		
+  
+"DistributionChannel":if(rs == 'EWC')
+ 
+(
+	 
+	
+	if(($.*ReleaseRefnum filter $.ReleaseRefnumQualifierGid.Gid.Xid =='DISTRIBUTION_CHANNEL').ReleaseRefnumValue != null)
+   
+			((($.*ReleaseRefnum filter $.ReleaseRefnumQualifierGid.Gid.Xid == 'DISTRIBUTION_CHANNEL').ReleaseRefnumValue reduce $) )
+   
+   else ''
+   
+) else '',
+ 		
+ 
+"CustomerOrderId" :
+	if(funOrg=='SECONDARY')
+	 (
+	   	 if(($.*ReleaseRefnum filter $.ReleaseRefnumQualifierGid.Gid.Xid == 'PO').ReleaseRefnumValue != null)
+		 
+			(($.*ReleaseRefnum filter $.ReleaseRefnumQualifierGid.Gid.Xid == 'PO').ReleaseRefnumValue reduce $ )
+		 
+		 else ''
+	 
+	 )
+	 
+else '',
+
+ 
+"PurchaseOrderID" :
+	if(funOrg=='INBOUND')
+	 (
+	   	 if(($.*ReleaseRefnum filter $.ReleaseRefnumQualifierGid.Gid.Xid == 'PO').ReleaseRefnumValue != null)
+		 
+			(($.*ReleaseRefnum filter $.ReleaseRefnumQualifierGid.Gid.Xid == 'PO').ReleaseRefnumValue reduce $ )
+		 
+		 else ''
+	 
+	 )
+	 
+    else '',
+
+ "SourceLocationId" : $.ShipFromLocationRef.LocationRef.LocationGid.Gid.Xid,
+    "DestLocationId" : $.ShipToLocationRef.LocationRef.LocationGid.Gid.Xid,
+    
+    
+"CorporationName" :
+	if((shipment.*Location filter $.LocationGid.Gid.Xid == shipToLocId).Corporation.CorporationName != null)
+	 (
+	  (shipment.*Location filter $.LocationGid.Gid.Xid == shipToLocId).Corporation.CorporationName reduce $
+	 
+	 )
+	 
+	else '',
+
+    
+"SalesOrg" :
+	if(($.*ReleaseRefnum filter $.ReleaseRefnumQualifierGid.Gid.Xid == 'UL_SALES_ORG').ReleaseRefnumValue != null)
+	 (
+	   	($.*ReleaseRefnum filter $.ReleaseRefnumQualifierGid.Gid.Xid == 'UL_SALES_ORG').ReleaseRefnumValue reduce $
+	 
+	 )
+	 
+else '',
+
+    
+ 
+"Division" :
+	if(($.*ReleaseRefnum filter $.ReleaseRefnumQualifierGid.Gid.Xid == 'DIVISION').ReleaseRefnumValue != null)
+	 (
+	   	($.*ReleaseRefnum filter $.ReleaseRefnumQualifierGid.Gid.Xid == 'DIVISION').ReleaseRefnumValue reduce $
+	 )
+	 
+else '',
+
+//"sdfghbgdf":$.*ShipUnit pluck {
+	//"DUID":$.ShipUnitContent.PackagedItemRef.PackagedItemGid.Gid.Xid
+
+    
+"DUInfo": 
+	if($.*ShipUnit != null)
+         
+       $.*ShipUnit map {
+			"DUID":$.ShipUnitContent.PackagedItemRef.PackagedItemGid.Gid.Xid,
+			"DUQuantity":$.ShipUnitContent.ItemQuantity.PackagedItemCount
+			}
+			
+		
+	else '',				 
+	}
+ 	
+	}
+
+}
+ 
+     
+     
+
+
+
+
+     
+
+    
+
+		
+		
+		
+		
+		
+		
+	 	
+	 	
+  
+
+	
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
