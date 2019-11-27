@@ -93,12 +93,7 @@ output application/java
 		</ee:transform>
 	</flow>
 	<flow name="poc-dataweaveFlow3" doc:id="8b6aa902-1fac-4133-be38-c9a30784fee4" >
-		<http:listener doc:name="Listener" doc:id="35b224fe-383c-43a6-b876-be8d4b764f79" config-ref="HTTP_Listener_config" path="/error"/>
+		<http:listener doc:name="Listener" doc:id="35b224fe-383c-43a6-b876-be8d4b764f79" />
 		<set-payload value="#[payload]" doc:name="Set Payload" doc:id="84a3b2ea-5316-46c3-9579-895bb878b159" />
-		<error-handler >
-			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="d1a18de6-3d19-447d-9326-c39c7d1203d8" type="ANY" when="#[payload == null]">
-				<logger level="INFO" doc:name="Logger" doc:id="9d1da63b-f91a-49e4-831d-241fff51f2dd" message="#[error]"/>
-			</on-error-propagate>
-		</error-handler>
 	</flow>
 </mule>

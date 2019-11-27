@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="mapObject-input" format="xml">
+      <types:example format="xml" element="prices" location="mapObject-Input.xml"/>
+    </types:type>
+    <types:type name="tender-input" format="xml">
+      <types:example format="xml" element="{http://xmlns.oracle.com/apps/otm}Transmission" location="tender-input.xml"/>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#38b26c58-20a7-4fcc-92d1-80e79745f0e3">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="mapObject-input"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#fe59ea8f-f085-409d-ae05-9513e483200e">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="tender-input"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>

@@ -11588,3 +11588,364 @@ Java Model Exception: Java Model Status [poc-dataweave does not exist]
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:56)
 !SUBENTRY 1 org.eclipse.jdt.core 4 969 2019-11-25 13:12:23.198
 !MESSAGE poc-dataweave does not exist
+
+!ENTRY org.mule.tooling.core 4 0 2019-11-25 15:05:21.964
+!MESSAGE There was a problem initializing the MULE_LIB/org.mule.connectors/mule-http-connector/1.5.6 classpath container for projects poc-dataweave
+!STACK 1
+Java Model Exception: Core Exception [code 374] Resource '/.org.eclipse.jdt.core.external.folders' already exists.
+	at org.eclipse.jdt.internal.core.ExternalFolderChange.updateExternalFoldersIfNecessary(ExternalFolderChange.java:51)
+	at org.eclipse.jdt.internal.core.ChangeClasspathOperation.classpathChanged(ChangeClasspathOperation.java:59)
+	at org.eclipse.jdt.internal.core.SetContainerOperation.executeOperation(SetContainerOperation.java:111)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:724)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2240)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2267)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:795)
+	at org.eclipse.jdt.core.JavaCore.setClasspathContainer(JavaCore.java:5730)
+	at org.mule.tooling.core.runtime.JavaCoreClasspathContainerConfigurer.configureContainerInProjects(JavaCoreClasspathContainerConfigurer.java:42)
+	at org.mule.tooling.core.runtime.ExternalContributionClasspathContainerInitializer.setClasspathContainer(ExternalContributionClasspathContainerInitializer.java:120)
+	at org.mule.tooling.core.runtime.ExternalContributionClasspathContainerInitializer.lambda$8(ExternalContributionClasspathContainerInitializer.java:97)
+	at org.mule.tooling.core.module.runner.DefaultCallback.onSuccess(DefaultCallback.java:23)
+	at org.mule.tooling.core.module.runner.DependenciesCallback.onSuccess(DependenciesCallback.java:1)
+	at org.mule.tooling.core.module.runner.StateCheckingRunnerDecorator.lambda$0(StateCheckingRunnerDecorator.java:67)
+	at org.mule.tooling.core.module.runner.DefaultCallback.onSuccess(DefaultCallback.java:23)
+	at org.mule.tooling.core.module.runner.DependenciesCallback.onSuccess(DependenciesCallback.java:1)
+	at org.mule.tooling.core.module.internal.runner.Task.lambda$2(Task.java:138)
+	at java.util.Optional.ifPresent(Optional.java:159)
+	at org.mule.tooling.core.module.internal.runner.Task.done(Task.java:138)
+	at org.mule.tooling.core.module.internal.runner.Task.run(Task.java:75)
+	at org.mule.tooling.core.module.internal.runner.ArtifactResolvingRunner$ArtifactJob.run(ArtifactResolvingRunner.java:212)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:56)
+Caused by: org.eclipse.core.internal.resources.ResourceException: Resource '/.org.eclipse.jdt.core.external.folders' already exists.
+	at org.eclipse.core.internal.resources.Resource.checkDoesNotExist(Resource.java:314)
+	at org.eclipse.core.internal.resources.Resource.checkDoesNotExist(Resource.java:301)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:52)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:263)
+	at org.eclipse.jdt.internal.core.ExternalFoldersManager.createExternalFoldersProject(ExternalFoldersManager.java:320)
+	at org.eclipse.jdt.internal.core.ExternalFoldersManager.createExternalFoldersProject(ExternalFoldersManager.java:262)
+	at org.eclipse.jdt.internal.core.ExternalFoldersManager.createLinkFolder(ExternalFoldersManager.java:168)
+	at org.eclipse.jdt.internal.core.ExternalFolderChange.updateExternalFoldersIfNecessary(ExternalFolderChange.java:49)
+	at org.eclipse.jdt.internal.core.ChangeClasspathOperation.classpathChanged(ChangeClasspathOperation.java:59)
+	at org.eclipse.jdt.internal.core.SetContainerOperation.executeOperation(SetContainerOperation.java:111)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:724)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2240)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2267)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:795)
+	at org.eclipse.jdt.core.JavaCore.setClasspathContainer(JavaCore.java:5730)
+	at org.mule.tooling.core.runtime.JavaCoreClasspathContainerConfigurer.configureContainerInProjects(JavaCoreClasspathContainerConfigurer.java:42)
+	at org.mule.tooling.core.runtime.ExternalContributionClasspathContainerInitializer.setClasspathContainer(ExternalContributionClasspathContainerInitializer.java:120)
+	at org.mule.tooling.core.runtime.ExternalContributionClasspathContainerInitializer.lambda$8(ExternalContributionClasspathContainerInitializer.java:97)
+	at org.mule.tooling.core.module.runner.DefaultCallback.onSuccess(DefaultCallback.java:23)
+	at org.mule.tooling.core.module.runner.DependenciesCallback.onSuccess(DependenciesCallback.java:1)
+	at org.mule.tooling.core.module.runner.StateCheckingRunnerDecorator.lambda$0(StateCheckingRunnerDecorator.java:67)
+	at org.mule.tooling.core.module.runner.DefaultCallback.onSuccess(DefaultCallback.java:23)
+	at org.mule.tooling.core.module.runner.DependenciesCallback.onSuccess(DependenciesCallback.java:1)
+	at org.mule.tooling.core.module.internal.runner.Task.lambda$2(Task.java:138)
+	at java.util.Optional.ifPresent(Optional.java:159)
+	at org.mule.tooling.core.module.internal.runner.Task.done(Task.java:138)
+	at org.mule.tooling.core.module.internal.runner.Task.run(Task.java:75)
+	at org.mule.tooling.core.module.internal.runner.ArtifactResolvingRunner$ArtifactJob.run(ArtifactResolvingRunner.java:212)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:56)
+!SUBENTRY 1 org.eclipse.core.resources 4 374 2019-11-25 15:05:21.967
+!MESSAGE Resource '/.org.eclipse.jdt.core.external.folders' already exists.
+
+!ENTRY org.mule.tooling.eventBus 4 0 2019-11-25 15:05:27.234
+!MESSAGE Unexpected error.
+!STACK 1
+Java Model Exception: Java Model Status [C:\Users\Bhanagiri.Reddy\softwares\AnypointStudio\plugins\org.mule.tooling.server.4.2.1.ee_7.3.3.201908272106\mule\services\mule-service-scheduler-1.2.3 does not exist]
+	at org.eclipse.jdt.internal.core.JavaElement.newJavaModelException(JavaElement.java:570)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:247)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:583)
+	at org.eclipse.jdt.internal.core.JavaElement.getElementInfo(JavaElement.java:320)
+	at org.eclipse.jdt.internal.core.JavaElement.getElementInfo(JavaElement.java:306)
+	at org.eclipse.jdt.internal.core.JavaElement.getChildren(JavaElement.java:261)
+	at org.mule.tooling.dfl.ui.ls.DataWeaveJarIndexer.loadFromJar(DataWeaveJarIndexer.java:93)
+	at org.mule.tooling.dfl.ui.ls.DataWeaveJarIndexer.lambda$6(DataWeaveJarIndexer.java:81)
+	at org.mule.tooling.utils.SilentRunner.run(SilentRunner.java:43)
+	at org.mule.tooling.dfl.ui.ls.DataWeaveJarIndexer.lambda$5(DataWeaveJarIndexer.java:79)
+	at java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.util.Spliterators$ArraySpliterator.forEachRemaining(Spliterators.java:948)
+	at java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:482)
+	at java.util.stream.ForEachOps$ForEachTask.compute(ForEachOps.java:291)
+	at java.util.concurrent.CountedCompleter.exec(CountedCompleter.java:731)
+	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:289)
+	at java.util.concurrent.ForkJoinPool.helpComplete(ForkJoinPool.java:1870)
+	at java.util.concurrent.ForkJoinPool.externalHelpComplete(ForkJoinPool.java:2467)
+	at java.util.concurrent.ForkJoinTask.externalAwaitDone(ForkJoinTask.java:324)
+	at java.util.concurrent.ForkJoinTask.doInvoke(ForkJoinTask.java:405)
+	at java.util.concurrent.ForkJoinTask.invoke(ForkJoinTask.java:734)
+	at java.util.stream.ForEachOps$ForEachOp.evaluateParallel(ForEachOps.java:160)
+	at java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateParallel(ForEachOps.java:174)
+	at java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:233)
+	at java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:418)
+	at java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:583)
+	at org.mule.tooling.dfl.ui.ls.DataWeaveJarIndexer.lambda$2(DataWeaveJarIndexer.java:78)
+	at org.mule.tooling.utils.SilentRunner.run(SilentRunner.java:43)
+	at org.mule.tooling.dfl.ui.ls.DataWeaveJarIndexer.load(DataWeaveJarIndexer.java:76)
+	at org.mule.tooling.dfl.ui.ls.DataWeaveJarIndexer.init(DataWeaveJarIndexer.java:55)
+	at org.mule.tooling.core.model.MuleProjectComponentManager.lambda$1(MuleProjectComponentManager.java:107)
+	at java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:193)
+	at java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:175)
+	at java.util.ArrayList$ArrayListSpliterator.tryAdvance(ArrayList.java:1359)
+	at java.util.stream.ReferencePipeline.forEachWithCancel(ReferencePipeline.java:126)
+	at java.util.stream.AbstractPipeline.copyIntoWithCancel(AbstractPipeline.java:499)
+	at java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:486)
+	at java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:472)
+	at java.util.stream.FindOps$FindOp.evaluateSequential(FindOps.java:152)
+	at java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.util.stream.ReferencePipeline.findFirst(ReferencePipeline.java:464)
+	at org.mule.tooling.core.model.MuleProjectComponentManager.initComponent(MuleProjectComponentManager.java:109)
+	at org.mule.tooling.core.model.MuleProjectComponentManager.getComponent(MuleProjectComponentManager.java:93)
+	at org.mule.tooling.core.impl.model.BaseMuleProject.getProjectComponent(BaseMuleProject.java:916)
+	at org.mule.tooling.dfl.ui.ls.DataWeaveJarIndexer.getInstance(DataWeaveJarIndexer.java:222)
+	at org.mule.tooling.dfl.ui.ls.EclipseDocumentVirtualFile.lambda$0(EclipseDocumentVirtualFile.java:89)
+	at org.mule.tooling.utils.SilentRunner.runOrElse(SilentRunner.java:34)
+	at org.mule.tooling.dfl.ui.ls.EclipseDocumentVirtualFile.getNameIdentifier(EclipseDocumentVirtualFile.java:73)
+	at org.mule.weave.v2.editor.WeaveToolingService.openInMemory(WeaveToolingService.scala:73)
+	at org.mule.tooling.dfl.ui.ls.DataWeaveLanguageService.doOpenInMemory(DataWeaveLanguageService.java:149)
+	at org.mule.tooling.dfl.ui.ls.DataWeaveLanguageService.validateScript(DataWeaveLanguageService.java:131)
+	at org.mule.tooling.ui.dfl.contribution.validation.DFLValidator.validateComponent(DFLValidator.java:40)
+	at org.mule.tooling.ui.modules.core.widgets.DefinitionElement.validateChildren(DefinitionElement.java:419)
+	at com.onpositive.commons.namespace.ide.ui.editors.xml.model.DomainValidatorVisitor.enterNode(DomainValidatorVisitor.java:73)
+	at com.onpositive.commons.namespace.ide.ui.editors.xml.model.DomainEditingModelObject.traverse(DomainEditingModelObject.java:92)
+	at com.onpositive.commons.namespace.ide.ui.editors.xml.model.DomainEditingModelObject.traverse(DomainEditingModelObject.java:97)
+	at com.onpositive.commons.namespace.ide.ui.editors.xml.model.DomainEditingModelObject.traverse(DomainEditingModelObject.java:97)
+	at com.onpositive.commons.namespace.ide.ui.editors.xml.model.DomainEditingModelObject.traverse(DomainEditingModelObject.java:97)
+	at com.onpositive.commons.namespace.ide.ui.editors.xml.model.DomainEditingModelObject.traverse(DomainEditingModelObject.java:97)
+	at org.mule.tooling.ui.modules.core.validation.MuleConfigurationValidator.doValidate(MuleConfigurationValidator.java:195)
+	at org.mule.tooling.ui.modules.core.validation.MuleConfigurationValidator.collectErrorMessages(MuleConfigurationValidator.java:173)
+	at org.mule.tooling.ui.modules.core.validation.MuleConfigurationValidator.validate(MuleConfigurationValidator.java:141)
+	at org.mule.tooling.core.builder.TransformerUtils.addErrorsForFlow(TransformerUtils.java:114)
+	at org.mule.tooling.core.builder.TransformerUtils.validateConfigFile(TransformerUtils.java:85)
+	at org.mule.tooling.core.builder.ValidationBuildVisitor$1.call(ValidationBuildVisitor.java:42)
+	at org.mule.tooling.core.builder.ValidationBuildVisitor$1.call(ValidationBuildVisitor.java:1)
+	at org.mule.tooling.utils.SilentRunner.run(SilentRunner.java:25)
+	at org.mule.tooling.core.StudioDesignContextRunner.runSilentWithContext(StudioDesignContextRunner.java:153)
+	at org.mule.tooling.core.builder.ValidationBuildVisitor.validate(ValidationBuildVisitor.java:37)
+	at org.mule.tooling.core.builder.ValidationBuildVisitor.visitFile(ValidationBuildVisitor.java:31)
+	at org.mule.tooling.core.utils.MuleProjectResourceVisitor.visit(MuleProjectResourceVisitor.java:19)
+	at org.eclipse.core.internal.resources.Resource$2.visit(Resource.java:120)
+	at org.eclipse.core.internal.resources.Resource$1.visitElement(Resource.java:84)
+	at org.eclipse.core.internal.watson.ElementTreeIterator.doIteration(ElementTreeIterator.java:82)
+	at org.eclipse.core.internal.watson.ElementTreeIterator.doIteration(ElementTreeIterator.java:87)
+	at org.eclipse.core.internal.watson.ElementTreeIterator.doIteration(ElementTreeIterator.java:87)
+	at org.eclipse.core.internal.watson.ElementTreeIterator.doIteration(ElementTreeIterator.java:87)
+	at org.eclipse.core.internal.watson.ElementTreeIterator.doIteration(ElementTreeIterator.java:87)
+	at org.eclipse.core.internal.watson.ElementTreeIterator.iterate(ElementTreeIterator.java:129)
+	at org.eclipse.core.internal.resources.Resource.accept(Resource.java:94)
+	at org.eclipse.core.internal.resources.Resource.accept(Resource.java:52)
+	at org.eclipse.core.internal.resources.Resource.accept(Resource.java:117)
+	at org.eclipse.core.internal.resources.Resource.accept(Resource.java:105)
+	at org.mule.tooling.core.builder.MuleBuilder$1.run(MuleBuilder.java:182)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:56)
+!SUBENTRY 1 org.eclipse.jdt.core 4 969 2019-11-25 15:05:27.237
+!MESSAGE C:\Users\Bhanagiri.Reddy\softwares\AnypointStudio\plugins\org.mule.tooling.server.4.2.1.ee_7.3.3.201908272106\mule\services\mule-service-scheduler-1.2.3 does not exist
+
+!ENTRY org.mule.tooling.maven 1 0 2019-11-25 15:07:03.782
+!MESSAGE  *** 10764 EmbeddedMavenRunner [configuration=DefaultMavenRunnerConfiguration [externalInstallation=false, mavenInstallationHome=null, mavenOpts=]]
+
+!ENTRY org.mule.tooling.core 4 0 2019-11-25 17:17:32.402
+!MESSAGE There was a problem while sending events to Amplitude
+!STACK 0
+com.mulesoft.telemetry.SendBundleException: HTTP POST failed
+	at com.mulesoft.telemetry.TelemetryHttpClient.send(TelemetryHttpClient.java:109)
+	at com.mulesoft.telemetry.DefaultTelemetryService.send(DefaultTelemetryService.java:234)
+	at com.mulesoft.telemetry.DefaultTelemetryService.sendEvents(DefaultTelemetryService.java:226)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: org.apache.http.conn.HttpHostConnectException: Connect to studio-metrics-report.cloudhub.io:443 [studio-metrics-report.cloudhub.io/34.209.131.149, studio-metrics-report.cloudhub.io/52.42.113.15, studio-metrics-report.cloudhub.io/52.27.129.208] failed: Connection timed out: connect
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:159)
+	at org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:373)
+	at org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:381)
+	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:237)
+	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:185)
+	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89)
+	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:111)
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83)
+	at com.mulesoft.telemetry.TelemetryHttpClient.send(TelemetryHttpClient.java:107)
+	... 9 more
+Caused by: java.net.ConnectException: Connection timed out: connect
+	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+	at java.net.DualStackPlainSocketImpl.socketConnect(DualStackPlainSocketImpl.java:79)
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)
+	at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:172)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.net.Socket.connect(Socket.java:606)
+	at org.apache.http.conn.ssl.SSLConnectionSocketFactory.connectSocket(SSLConnectionSocketFactory.java:339)
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142)
+	... 18 more
+
+!ENTRY org.eclipse.jface 2 0 2019-11-25 17:17:44.297
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-11-25 17:17:44.297
+!MESSAGE A conflict occurred for CTRL+SHIFT+P:
+Binding(CTRL+SHIFT+P,
+	ParameterizedCommand(Command(org.mule.tooling.ui.exportImageCommand,Export image,
+		Export image,
+		Category(org.mule.tooling.ui.commandcategory,org.mule.tooling.ui.commandcategory,Category for menu commands,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@6744ae33,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.mule.tooling.keybindings.contexts.muleStudio,,,system)
+Binding(CTRL+SHIFT+P,
+	ParameterizedCommand(Command(org.mule.tooling.ui.dfl.contribution.commands.turnOnOffPreviewCommand,Turn on/off preview,
+		Turn on/off preview,
+		Category(org.mule.tooling.ui.commandcategory,org.mule.tooling.ui.commandcategory,Category for menu commands,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@36e63b55,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.mule.tooling.contexts.mulePropertiesEditor,,,system)
+
+!ENTRY org.mule.tooling.maven 1 0 2019-11-25 17:23:31.525
+!MESSAGE  *** 23370 EmbeddedMavenRunner [configuration=MavenPreferences [isDontWarnAgainIfNoInstallationFoundChecked()=false, isGlobalMavenSupportEnabled()=true, getMavenInstallationHome()=C:\Users\Bhanagiri.Reddy\softwares\apache-maven-3.6.2, getMavenOpts()=, getDefaultGroupId()=com.mycompany, getBaseCommandline()=mvn clean package -DskipMunitTests, isDisplayRuntimeVersionWarning()=true, isExternalInstallation()=false]]
+
+!ENTRY org.mule.tooling.core 4 0 2019-11-25 17:23:36.315
+!MESSAGE There was a problem while sending events to Amplitude
+!STACK 0
+com.mulesoft.telemetry.SendBundleException: HTTP POST failed
+	at com.mulesoft.telemetry.TelemetryHttpClient.send(TelemetryHttpClient.java:109)
+	at com.mulesoft.telemetry.DefaultTelemetryService.send(DefaultTelemetryService.java:234)
+	at com.mulesoft.telemetry.DefaultTelemetryService.sendEvents(DefaultTelemetryService.java:226)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: org.apache.http.conn.HttpHostConnectException: Connect to studio-metrics-report.cloudhub.io:443 [studio-metrics-report.cloudhub.io/52.27.129.208, studio-metrics-report.cloudhub.io/34.209.131.149, studio-metrics-report.cloudhub.io/52.42.113.15] failed: Connection timed out: connect
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:159)
+	at org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:373)
+	at org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:381)
+	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:237)
+	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:185)
+	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89)
+	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:111)
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83)
+	at com.mulesoft.telemetry.TelemetryHttpClient.send(TelemetryHttpClient.java:107)
+	... 9 more
+Caused by: java.net.ConnectException: Connection timed out: connect
+	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+	at java.net.DualStackPlainSocketImpl.socketConnect(DualStackPlainSocketImpl.java:79)
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)
+	at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:172)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.net.Socket.connect(Socket.java:606)
+	at org.apache.http.conn.ssl.SSLConnectionSocketFactory.connectSocket(SSLConnectionSocketFactory.java:339)
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142)
+	... 18 more
+
+!ENTRY org.eclipse.jface 2 0 2019-11-25 17:24:13.582
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-11-25 17:24:13.583
+!MESSAGE A conflict occurred for CTRL+Z:
+Binding(CTRL+Z,
+	ParameterizedCommand(Command(org.eclipse.debug.ui.commands.eof,EOF,
+		Send end of file,
+		Category(org.eclipse.debug.ui.category.run,Run/Debug,Run/Debug command category,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@137fb40,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.debug.ui.console,,win32,system)
+Binding(CTRL+Z,
+	ParameterizedCommand(Command(org.eclipse.ui.edit.undo,Undo,
+		Undo the last operation,
+		Category(org.eclipse.ui.category.edit,Edit,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@41843e3e,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.dialogAndWindow,,,system)
+Binding(CTRL+Z,
+	ParameterizedCommand(Command(org.mule.tooling.ui.dfl.contribution.commands.undoCommand,Undo Mapping Command,
+		Undo Mapping Command,
+		Category(org.mule.tooling.ui.commandcategory,org.mule.tooling.ui.commandcategory,Category for menu commands,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@79337717,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.mule.tooling.contexts.mulePropertiesEditor,,,system)
+
+!ENTRY org.mule.tooling.core 4 0 2019-11-25 17:29:41.034
+!MESSAGE There was a problem while sending events to Amplitude
+!STACK 0
+com.mulesoft.telemetry.SendBundleException: HTTP POST failed
+	at com.mulesoft.telemetry.TelemetryHttpClient.send(TelemetryHttpClient.java:109)
+	at com.mulesoft.telemetry.DefaultTelemetryService.send(DefaultTelemetryService.java:234)
+	at com.mulesoft.telemetry.DefaultTelemetryService.sendEvents(DefaultTelemetryService.java:226)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: org.apache.http.conn.HttpHostConnectException: Connect to studio-metrics-report.cloudhub.io:443 [studio-metrics-report.cloudhub.io/34.209.131.149, studio-metrics-report.cloudhub.io/52.27.129.208, studio-metrics-report.cloudhub.io/52.42.113.15] failed: Connection timed out: connect
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:159)
+	at org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:373)
+	at org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:381)
+	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:237)
+	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:185)
+	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89)
+	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:111)
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83)
+	at com.mulesoft.telemetry.TelemetryHttpClient.send(TelemetryHttpClient.java:107)
+	... 9 more
+Caused by: java.net.ConnectException: Connection timed out: connect
+	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+	at java.net.DualStackPlainSocketImpl.socketConnect(DualStackPlainSocketImpl.java:79)
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)
+	at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:172)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.net.Socket.connect(Socket.java:606)
+	at org.apache.http.conn.ssl.SSLConnectionSocketFactory.connectSocket(SSLConnectionSocketFactory.java:339)
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142)
+	... 18 more
+
+!ENTRY org.mule.tooling.core 4 0 2019-11-25 17:35:10.005
+!MESSAGE There was a problem while sending events to Amplitude
+!STACK 0
+com.mulesoft.telemetry.SendBundleException: HTTP POST failed
+	at com.mulesoft.telemetry.TelemetryHttpClient.send(TelemetryHttpClient.java:109)
+	at com.mulesoft.telemetry.DefaultTelemetryService.send(DefaultTelemetryService.java:234)
+	at com.mulesoft.telemetry.DefaultTelemetryService.sendEvents(DefaultTelemetryService.java:226)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: javax.net.ssl.SSLHandshakeException: Remote host closed connection during handshake
+	at sun.security.ssl.SSLSocketImpl.readRecord(SSLSocketImpl.java:994)
+	at sun.security.ssl.SSLSocketImpl.performInitialHandshake(SSLSocketImpl.java:1367)
+	at sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:1395)
+	at sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:1379)
+	at org.apache.http.conn.ssl.SSLConnectionSocketFactory.createLayeredSocket(SSLConnectionSocketFactory.java:396)
+	at org.apache.http.conn.ssl.SSLConnectionSocketFactory.connectSocket(SSLConnectionSocketFactory.java:355)
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142)
+	at org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:373)
+	at org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:381)
+	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:237)
+	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:185)
+	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89)
+	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:111)
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83)
+	at com.mulesoft.telemetry.TelemetryHttpClient.send(TelemetryHttpClient.java:107)
+	... 9 more
+Caused by: java.io.EOFException: SSL peer shut down incorrectly
+	at sun.security.ssl.InputRecord.read(InputRecord.java:505)
+	at sun.security.ssl.SSLSocketImpl.readRecord(SSLSocketImpl.java:975)
+	... 24 more

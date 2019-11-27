@@ -2,6 +2,9 @@
   "sampleData": {
     "38b26c58-20a7-4fcc-92d1-80e79745f0e3": {
       "payload": "sample_data/unknown_1.dwl"
+    },
+    "f6eb5cda-e8d9-4c6e-a5c6-c3ece2601bc2": {
+      "payload": "sample_data/defaultstringtype_1.dwl"
     }
   }
 }
